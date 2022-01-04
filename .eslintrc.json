@@ -1,3 +1,54 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": ["airbnb", "prettier", "next/core-web-vitals", "next/babel"],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "webextensions": true
+  },
+  "plugins": ["react-hooks", "prettier"],
+  "parser": "@babel/eslint-parser",
+  "rules": {
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "react/react-in-jsx-scope": "off",
+    "prettier/prettier": ["error"],
+    "react/no-did-update-set-state": [0],
+    "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "no-underscore-dangle": ["off"],
+    "react/no-multi-comp": [1, { "ignoreStateless": true }],
+    "react/forbid-prop-types": [0],
+    "react/jsx-props-no-spreading": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "no-template-curly-in-string": "off",
+    "camelcase": "off",
+    "react/prop-types": 0,
+    "prefer-destructuring": ["error", { "object": true, "array": false }],
+    "react/jsx-filename-extension": [
+      2,
+      { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [["@/*", "./src"]],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      },
+      "node": {
+        "moduleDirectory": ["node_modules", "./src"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  }
 }
