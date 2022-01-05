@@ -2,9 +2,9 @@ import Navbar from "./common/Navbar";
 
 const MainLayout: React.FunctionComponent = (props) => {
   return (
-    <div className="max-w-[1920px] mx-auto w-full">
+    <div className="max-w-[1440px] h-[5000px] mx-auto w-full border-2 border-opacity-50">
       <Navbar />
-      <div className="flex ">{props.children}</div>
+      <div className="flex w-full ">{props.children}</div>
     </div>
   );
 };
