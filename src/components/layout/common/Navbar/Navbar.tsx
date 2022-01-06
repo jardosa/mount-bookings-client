@@ -22,11 +22,14 @@ const Navbar: React.FunctionComponent = () => {
   return (
     <>
       <div className="sticky top-0 z-20 bg-gray-100">
-        <div className="w-full relative h-16 flex px-5 sm:px-10 items-center justify-center md:justify-between border-b">
+        <div className="w-full relative h-16 flex px-5 sm:px-10 items-center justify-center md:justify-between border-b gap-5">
           <MobileMenu />
 
           <Link href="/">
-            <a href="/" className="flex items-center gap-5 flex-auto ">
+            <a
+              href="/"
+              className="flex items-center  gap-2 sm:gap-5 flex-auto "
+            >
               <Image
                 className="rounded-full"
                 layout="fixed"
@@ -34,7 +37,7 @@ const Navbar: React.FunctionComponent = () => {
                 width={48}
                 height={48}
               />
-              <p className="text-2xl sm:block hidden font-bold text-green-900 uppercase">
+              <p className="text-base sm:text-2xl flex-1 font-bold text-green-900 uppercase">
                 Philippine Mountains
               </p>
             </a>

@@ -20,7 +20,7 @@ const MobileMenu: React.FunctionComponent = () => {
     </Menu.Item>
   ));
   return (
-    <Menu as="div" className="md:hidden block">
+    <Menu as="div" className="md:hidden block flex-auto">
       <Menu.Button>
         <AiOutlineMenu className="w-[40px] h-[40px] hover:text-green-700 transition" />
       </Menu.Button>
