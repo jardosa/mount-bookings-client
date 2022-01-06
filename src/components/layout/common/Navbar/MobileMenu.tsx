@@ -1,16 +1,33 @@
+import { Menu } from "@headlessui/react";
 import Link from "next/link";
+import { AiOutlineMenu } from "react-icons/ai";
 import { links } from "./Navbar";
 
 const MobileMenu: React.FunctionComponent = () => {
   const mobileLinks = links.map(({ href, name }) => (
-    <div className="text-lg font-semibold px-10 text-green-400">
-      <Link href={href}>{name}</Link>
-    </div>
+    <Menu.Item>
+      {({ active }) => (
+        <div
+          key={href}
+          className={[
+            active && " bg-gray-200",
+            "text-lg font-semibold px-10 text-green-400  py-2 ",
+          ].join(" ")}
+        >
+          <Link href={href}>{name}</Link>
+        </div>
+      )}
+    </Menu.Item>
   ));
   return (
-    <div className="w-[300px] sm:w-[384px] bg-gray-100  py-10 rounded-l-sm rounded-br-sm space-y-5">
-      {mobileLinks}
-    </div>
+    <Menu as="div" className="md:hidden block">
+      <Menu.Button>
+        <AiOutlineMenu className="w-[40px] h-[40px] hover:text-green-700 transition" />
+      </Menu.Button>
+      <Menu.Items className="fixed top-16 left-0 w-[300px] sm:w-[384px] bg-gray-100 rounded-l-sm rounded-br-sm">
+        {mobileLinks}
+      </Menu.Items>
+    </Menu>
   );
 };
 
