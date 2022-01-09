@@ -4,7 +4,7 @@ const MainLayout: React.FunctionComponent = (props) => {
   return (
     <div className="max-w-[1440px] h-[5000px] mx-auto w-full border border-opacity-50">
       <Navbar />
-      <div className="flex w-full ">{props.children}</div>
+      <div className="flex w-full p-10 ">{props.children}</div>
     </div>
   );
 };

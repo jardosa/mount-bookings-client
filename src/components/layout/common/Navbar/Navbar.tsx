@@ -13,7 +13,7 @@ export const links = [
 
 const Navbar: React.FunctionComponent = () => {
   const navbarLinks = links.map(({ name, href }) => (
-    <Link href={href}>
+    <Link key={href} href={href}>
       <a href={href} className="text-lg hover:text-green-700 transition">
         {name}
       </a>
@@ -44,9 +44,6 @@ const Navbar: React.FunctionComponent = () => {
           </Link>
           <div className="space-x-5 md:block hidden">{navbarLinks}</div>
         </div>
-        {/* <div className="fixed top-16 z-50">
-          <MobileMenu />
-        </div> */}
       </div>
     </>
   );

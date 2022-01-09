@@ -1,0 +1,13 @@
+query Destinations{ 
+    destinations{
+        totalCount
+        nodes {
+            _id
+            name
+            description
+            maxSlots
+            slotsLeft
+            imageUrl
+        }
+    }
+}

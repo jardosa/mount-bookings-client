@@ -82,6 +82,7 @@ export type DestinationEntity = Node & {
   __typename?: 'DestinationEntity';
   _id: Scalars['ID'];
   description: Scalars['String'];
+  imageUrl?: Maybe<Scalars['String']>;
   maxSlots: Scalars['Float'];
   name: Scalars['String'];
   slotsLeft: Scalars['Float'];
@@ -383,6 +384,11 @@ export type User = Node & {
   lastName: Scalars['String'];
 };
 
+export type DestinationsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DestinationsQuery = { __typename?: 'Query', destinations: { __typename?: 'DestinationConnection', totalCount: number, nodes: Array<{ __typename?: 'DestinationEntity', _id: string, name: string, description: string, maxSlots: number, slotsLeft: number, imageUrl?: string | null | undefined }> } };
+
 export type PingQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -394,6 +400,48 @@ export type WhoAmIQueryVariables = Exact<{ [key: string]: never; }>;
 export type WhoAmIQuery = { __typename?: 'Query', whoAmI: { __typename?: 'User', _id: string, firstName: string, lastName: string, email: string } };
 
 
+export const DestinationsDocument = gql`
+    query Destinations {
+  destinations {
+    totalCount
+    nodes {
+      _id
+      name
+      description
+      maxSlots
+      slotsLeft
+      imageUrl
+    }
+  }
+}
+    `;
+
+/**
+ * __useDestinationsQuery__
+ *
+ * To run a query within a React component, call `useDestinationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDestinationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDestinationsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useDestinationsQuery(baseOptions?: Apollo.QueryHookOptions<DestinationsQuery, DestinationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DestinationsQuery, DestinationsQueryVariables>(DestinationsDocument, options);
+      }
+export function useDestinationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DestinationsQuery, DestinationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DestinationsQuery, DestinationsQueryVariables>(DestinationsDocument, options);
+        }
+export type DestinationsQueryHookResult = ReturnType<typeof useDestinationsQuery>;
+export type DestinationsLazyQueryHookResult = ReturnType<typeof useDestinationsLazyQuery>;
+export type DestinationsQueryResult = Apollo.QueryResult<DestinationsQuery, DestinationsQueryVariables>;
 export const PingDocument = gql`
     query Ping {
   ping
