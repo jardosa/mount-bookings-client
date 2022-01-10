@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Fragment } from "react";
 
 export function DestinationThumbnail({
@@ -27,7 +28,11 @@ export function DestinationThumbnail({
           height={240}
         />
         <div className="p-2">
-          <p className="text-2xl">{name}</p>
+          <Link href="/destinations/pulag">
+            <a href="/destinations/pulag" className="text-2xl">
+              {name}
+            </a>
+          </Link>
           <p className="italic font-serif">Kabayan, Benguet</p>
           {/* {description} */}
           <div>
