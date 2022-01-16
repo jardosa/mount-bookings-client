@@ -8,6 +8,16 @@ query Destinations{
             maxSlots
             slotsLeft
             imageUrl
+            slug
+            province{
+                _id
+                provDesc
+                provCode
+                psgcCode
+                region {
+                    regDesc
+                }
+            }
         }
     }
 }

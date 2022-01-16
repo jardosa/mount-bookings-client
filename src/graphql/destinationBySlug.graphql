@@ -1,0 +1,17 @@
+query DestinationBySlug($slug: String!) {
+    destinationBySlug(slug: $slug) {
+        _id
+        name
+        description
+        maxSlots
+        slotsLeft
+        slug
+        imageUrl
+        province  {
+            provDesc
+            region {
+                regDesc
+            }
+        }
+    }
+}

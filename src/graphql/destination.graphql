@@ -1,0 +1,17 @@
+query DestinationById($_id: ID!) {
+    destinationById(_id: $_id) {
+        _id
+        name
+        description
+        maxSlots
+        slotsLeft
+        slug
+        imageUrl
+        province  {
+            provDesc
+            region {
+                regDesc
+            }
+        }
+    }
+}

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Fragment } from "react";
+import { DestinationEntity, Province } from "../../generated/graphql";
 
 export function DestinationThumbnail({
   description,
@@ -9,14 +10,18 @@ export function DestinationThumbnail({
   slotsLeft,
   imageUrl,
   _id,
+  slug,
+  province,
 }: {
-  __typename?: "DestinationEntity" | undefined;
+  // __typename?: "DestinationEntity" | undefined;
   _id: string;
   name: string;
   description: string;
   maxSlots: number;
   slotsLeft: number;
   imageUrl?: string | null | undefined;
+  slug: string;
+  province: Province;
 }): JSX.Element {
   return (
     <Fragment key={_id}>
@@ -28,12 +33,12 @@ export function DestinationThumbnail({
           height={240}
         />
         <div className="p-2">
-          <Link href="/destinations/pulag">
-            <a href="/destinations/pulag" className="text-2xl">
+          <Link href={`/destinations/${slug}`}>
+            <a href={`/destinations/${slug}`} className="text-2xl">
               {name}
             </a>
           </Link>
-          <p className="italic font-serif">Kabayan, Benguet</p>
+          <p className="italic font-serif">{`${province.provDesc}, ${province.region.regDesc}`}</p>
           {/* {description} */}
           <div>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio, ut.

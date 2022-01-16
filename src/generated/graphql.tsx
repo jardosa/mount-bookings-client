@@ -39,6 +39,7 @@ export type CreateDestinationInput = {
   description: Scalars['String'];
   maxSlots: Scalars['Float'];
   name: Scalars['String'];
+  province: Scalars['String'];
 };
 
 export type CreateMemberInput = {
@@ -85,7 +86,10 @@ export type DestinationEntity = Node & {
   imageUrl?: Maybe<Scalars['String']>;
   maxSlots: Scalars['Float'];
   name: Scalars['String'];
+  province: Province;
+  provinces: Array<Province>;
   slotsLeft: Scalars['Float'];
+  slug: Scalars['String'];
 };
 
 export type LoginInput = {
@@ -258,11 +262,30 @@ export type Post = Node & {
   isPublished: Scalars['Boolean'];
 };
 
+export type Province = Node & {
+  __typename?: 'Province';
+  _id: Scalars['ID'];
+  provCode: Scalars['String'];
+  provDesc: Scalars['String'];
+  psgcCode: Scalars['String'];
+  region: Region;
+};
+
+export type ProvinceConnection = NodeConnection & {
+  __typename?: 'ProvinceConnection';
+  nodes: Array<Province>;
+  totalCount: Scalars['Int'];
+};
+
 export type Query = {
   __typename?: 'Query';
   author: Author;
-  destination: DestinationEntity;
+  destinationById: DestinationEntity;
+  destinationBySlug: DestinationEntity;
   destinations: DestinationConnection;
+  findAllProvinces: ProvinceConnection;
+  findAllRegions: RegionConnection;
+  findProvince: Province;
   member: MemberEntity;
   members: MemberConnection;
   ping: Scalars['String'];
@@ -281,8 +304,13 @@ export type QueryAuthorArgs = {
 };
 
 
-export type QueryDestinationArgs = {
-  id: Scalars['Int'];
+export type QueryDestinationByIdArgs = {
+  _id: Scalars['ID'];
+};
+
+
+export type QueryDestinationBySlugArgs = {
+  slug: Scalars['String'];
 };
 
 
@@ -303,6 +331,22 @@ export type QueryReservationArgs = {
 
 export type QueryUserByIdArgs = {
   id: Scalars['String'];
+};
+
+export type Region = Node & {
+  __typename?: 'Region';
+  _id: Scalars['ID'];
+  provinces: Array<Province>;
+  /** Philippine Standard Geographic Code */
+  psgcCode?: Maybe<Scalars['String']>;
+  regCode: Scalars['String'];
+  regDesc: Scalars['String'];
+};
+
+export type RegionConnection = NodeConnection & {
+  __typename?: 'RegionConnection';
+  nodes: Array<Region>;
+  totalCount: Scalars['Int'];
 };
 
 export type ReservationConnection = NodeConnection & {
@@ -339,6 +383,7 @@ export type UpdateDestinationInput = {
   id: Scalars['Int'];
   maxSlots?: InputMaybe<Scalars['Float']>;
   name?: InputMaybe<Scalars['String']>;
+  province?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateMemberInput = {
@@ -384,10 +429,24 @@ export type User = Node & {
   lastName: Scalars['String'];
 };
 
+export type DestinationByIdQueryVariables = Exact<{
+  _id: Scalars['ID'];
+}>;
+
+
+export type DestinationByIdQuery = { __typename?: 'Query', destinationById: { __typename?: 'DestinationEntity', _id: string, name: string, description: string, maxSlots: number, slotsLeft: number, slug: string, imageUrl?: string | null | undefined, province: { __typename?: 'Province', provDesc: string, region: { __typename?: 'Region', regDesc: string } } } };
+
+export type DestinationBySlugQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+
+export type DestinationBySlugQuery = { __typename?: 'Query', destinationBySlug: { __typename?: 'DestinationEntity', _id: string, name: string, description: string, maxSlots: number, slotsLeft: number, slug: string, imageUrl?: string | null | undefined, province: { __typename?: 'Province', provDesc: string, region: { __typename?: 'Region', regDesc: string } } } };
+
 export type DestinationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DestinationsQuery = { __typename?: 'Query', destinations: { __typename?: 'DestinationConnection', totalCount: number, nodes: Array<{ __typename?: 'DestinationEntity', _id: string, name: string, description: string, maxSlots: number, slotsLeft: number, imageUrl?: string | null | undefined }> } };
+export type DestinationsQuery = { __typename?: 'Query', destinations: { __typename?: 'DestinationConnection', totalCount: number, nodes: Array<{ __typename?: 'DestinationEntity', _id: string, name: string, description: string, maxSlots: number, slotsLeft: number, imageUrl?: string | null | undefined, slug: string, province: { __typename?: 'Province', _id: string, provDesc: string, provCode: string, psgcCode: string, region: { __typename?: 'Region', regDesc: string } } }> } };
 
 export type PingQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -400,6 +459,100 @@ export type WhoAmIQueryVariables = Exact<{ [key: string]: never; }>;
 export type WhoAmIQuery = { __typename?: 'Query', whoAmI: { __typename?: 'User', _id: string, firstName: string, lastName: string, email: string } };
 
 
+export const DestinationByIdDocument = gql`
+    query DestinationById($_id: ID!) {
+  destinationById(_id: $_id) {
+    _id
+    name
+    description
+    maxSlots
+    slotsLeft
+    slug
+    imageUrl
+    province {
+      provDesc
+      region {
+        regDesc
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useDestinationByIdQuery__
+ *
+ * To run a query within a React component, call `useDestinationByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDestinationByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDestinationByIdQuery({
+ *   variables: {
+ *      _id: // value for '_id'
+ *   },
+ * });
+ */
+export function useDestinationByIdQuery(baseOptions: Apollo.QueryHookOptions<DestinationByIdQuery, DestinationByIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DestinationByIdQuery, DestinationByIdQueryVariables>(DestinationByIdDocument, options);
+      }
+export function useDestinationByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DestinationByIdQuery, DestinationByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DestinationByIdQuery, DestinationByIdQueryVariables>(DestinationByIdDocument, options);
+        }
+export type DestinationByIdQueryHookResult = ReturnType<typeof useDestinationByIdQuery>;
+export type DestinationByIdLazyQueryHookResult = ReturnType<typeof useDestinationByIdLazyQuery>;
+export type DestinationByIdQueryResult = Apollo.QueryResult<DestinationByIdQuery, DestinationByIdQueryVariables>;
+export const DestinationBySlugDocument = gql`
+    query DestinationBySlug($slug: String!) {
+  destinationBySlug(slug: $slug) {
+    _id
+    name
+    description
+    maxSlots
+    slotsLeft
+    slug
+    imageUrl
+    province {
+      provDesc
+      region {
+        regDesc
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useDestinationBySlugQuery__
+ *
+ * To run a query within a React component, call `useDestinationBySlugQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDestinationBySlugQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDestinationBySlugQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useDestinationBySlugQuery(baseOptions: Apollo.QueryHookOptions<DestinationBySlugQuery, DestinationBySlugQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DestinationBySlugQuery, DestinationBySlugQueryVariables>(DestinationBySlugDocument, options);
+      }
+export function useDestinationBySlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DestinationBySlugQuery, DestinationBySlugQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DestinationBySlugQuery, DestinationBySlugQueryVariables>(DestinationBySlugDocument, options);
+        }
+export type DestinationBySlugQueryHookResult = ReturnType<typeof useDestinationBySlugQuery>;
+export type DestinationBySlugLazyQueryHookResult = ReturnType<typeof useDestinationBySlugLazyQuery>;
+export type DestinationBySlugQueryResult = Apollo.QueryResult<DestinationBySlugQuery, DestinationBySlugQueryVariables>;
 export const DestinationsDocument = gql`
     query Destinations {
   destinations {
@@ -411,6 +564,16 @@ export const DestinationsDocument = gql`
       maxSlots
       slotsLeft
       imageUrl
+      slug
+      province {
+        _id
+        provDesc
+        provCode
+        psgcCode
+        region {
+          regDesc
+        }
+      }
     }
   }
 }
