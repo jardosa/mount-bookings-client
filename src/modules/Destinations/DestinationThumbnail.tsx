@@ -13,7 +13,7 @@ export function DestinationThumbnail({
   slug,
   province,
 }: {
-  // __typename?: "DestinationEntity" | undefined;
+  __typename?: "DestinationEntity" | undefined;
   _id: string;
   name: string;
   description: string;
@@ -21,7 +21,14 @@ export function DestinationThumbnail({
   slotsLeft: number;
   imageUrl?: string | null | undefined;
   slug: string;
-  province: Province;
+  province: {
+    __typename?: "Province" | undefined;
+    _id: string;
+    provDesc: string;
+    provCode: string;
+    psgcCode: string;
+    region: { __typename?: "Region" | undefined; regDesc: string };
+  };
 }): JSX.Element {
   return (
     <Fragment key={_id}>
