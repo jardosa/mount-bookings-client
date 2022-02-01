@@ -1,4 +1,4 @@
-import Reservation from "../../../../modules/Destinations/Reservation";
+import ReservationForm from "../../../../modules/Reservation/ReservationForm/ReservationForm";
 
-const ReservationPage = () => <Reservation />;
+const ReservationPage = () => <ReservationForm />;
 export default ReservationPage;

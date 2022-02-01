@@ -1,0 +1,15 @@
+mutation CreateReservation($createReservationInput: CreateReservationInput!){
+    createReservation(createReservationInput: $createReservationInput){
+    leader {
+      firstName
+      lastName
+    }
+    members {
+      firstName
+      lastName
+    }
+    reservationStatus
+    hikeDateStart
+    hikeDateEnd
+    }
+}

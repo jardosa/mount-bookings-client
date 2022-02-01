@@ -59,6 +59,7 @@ export type CreatePostInput = {
 };
 
 export type CreateReservationInput = {
+  destination: Scalars['ID'];
   hikeDateEnd: Scalars['DateTime'];
   hikeDateStart: Scalars['DateTime'];
   leader: CreateMemberInput;
@@ -358,6 +359,7 @@ export type ReservationConnection = NodeConnection & {
 export type ReservationEntity = Node & {
   __typename?: 'ReservationEntity';
   _id: Scalars['ID'];
+  destination: DestinationEntity;
   hikeDateEnd: Scalars['DateTime'];
   hikeDateStart: Scalars['DateTime'];
   leader: MemberEntity;
@@ -406,6 +408,7 @@ export type UpdatePostInput = {
 
 export type UpdateReservationInput = {
   _id: Scalars['ID'];
+  destination?: InputMaybe<Scalars['ID']>;
   hikeDateEnd?: InputMaybe<Scalars['DateTime']>;
   hikeDateStart?: InputMaybe<Scalars['DateTime']>;
   leader?: InputMaybe<CreateMemberInput>;
@@ -428,6 +431,13 @@ export type User = Node & {
   firstName: Scalars['String'];
   lastName: Scalars['String'];
 };
+
+export type CreateReservationMutationVariables = Exact<{
+  createReservationInput: CreateReservationInput;
+}>;
+
+
+export type CreateReservationMutation = { __typename?: 'Mutation', createReservation: { __typename?: 'ReservationEntity', reservationStatus: Status, hikeDateStart: any, hikeDateEnd: any, leader: { __typename?: 'MemberEntity', firstName: string, lastName: string }, members: Array<{ __typename?: 'MemberEntity', firstName: string, lastName: string }> } };
 
 export type DestinationByIdQueryVariables = Exact<{
   _id: Scalars['ID'];
@@ -459,6 +469,49 @@ export type WhoAmIQueryVariables = Exact<{ [key: string]: never; }>;
 export type WhoAmIQuery = { __typename?: 'Query', whoAmI: { __typename?: 'User', _id: string, firstName: string, lastName: string, email: string } };
 
 
+export const CreateReservationDocument = gql`
+    mutation CreateReservation($createReservationInput: CreateReservationInput!) {
+  createReservation(createReservationInput: $createReservationInput) {
+    leader {
+      firstName
+      lastName
+    }
+    members {
+      firstName
+      lastName
+    }
+    reservationStatus
+    hikeDateStart
+    hikeDateEnd
+  }
+}
+    `;
+export type CreateReservationMutationFn = Apollo.MutationFunction<CreateReservationMutation, CreateReservationMutationVariables>;
+
+/**
+ * __useCreateReservationMutation__
+ *
+ * To run a mutation, you first call `useCreateReservationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateReservationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createReservationMutation, { data, loading, error }] = useCreateReservationMutation({
+ *   variables: {
+ *      createReservationInput: // value for 'createReservationInput'
+ *   },
+ * });
+ */
+export function useCreateReservationMutation(baseOptions?: Apollo.MutationHookOptions<CreateReservationMutation, CreateReservationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateReservationMutation, CreateReservationMutationVariables>(CreateReservationDocument, options);
+      }
+export type CreateReservationMutationHookResult = ReturnType<typeof useCreateReservationMutation>;
+export type CreateReservationMutationResult = Apollo.MutationResult<CreateReservationMutation>;
+export type CreateReservationMutationOptions = Apollo.BaseMutationOptions<CreateReservationMutation, CreateReservationMutationVariables>;
 export const DestinationByIdDocument = gql`
     query DestinationById($_id: ID!) {
   destinationById(_id: $_id) {
